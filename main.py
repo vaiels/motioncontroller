@@ -1,14 +1,17 @@
 ## Python
 from pathlib import Path
 import time
+import sys
 
 ## MMS
 from trackmap_gui import TrackMapGUI
 from vehicle_model import VehicleModel
 from path_planning import PathPlanner
 from motion_controller import MotionController
+from keyboard_controller import KeyboardController
 
 rate = 50.0
+keyboard_controller_enabled = False
 
 track_csv = Path("./FSG2019.csv")
 track_ref_csv = Path("./FSG2019_ref.csv")
@@ -16,7 +19,11 @@ track_ref_csv = Path("./FSG2019_ref.csv")
 gui = TrackMapGUI(track_csv)
 vehicle = VehicleModel()
 planner = PathPlanner(track_ref_csv)
-controller = MotionController()
+
+if keyboard_controller_enabled or sys.argv[1]:
+    controller = KeyboardController()
+else:
+    controller = MotionController()
 
 while(True):
     car = vehicle.get_state(1.0/rate)

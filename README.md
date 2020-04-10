@@ -5,6 +5,7 @@ A self contained python codebase to act as a platform to experiment with motion 
 
  - Python 3.6+
  - PySimpleGUI
+ - PyGame
 
 
 ### Classes
