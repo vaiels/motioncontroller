@@ -12,17 +12,13 @@ Cone = namedtuple('Cone', 'x y type')
 
 Point = namedtuple('Point', 'x y')
 
-def transform_vector(pt, x, y, angle):
-    return (x + math.cos(angle)*pt[0] - math.sin(angle)*pt[1], y + math.sin(angle)*pt[0] + math.cos(angle)*pt[1])
-
+RefPoint = namedtuple('RefPoint', 'coord vel')
 
 Controls = namedtuple('Controls', 'steering throttle')
 
-# TODO: Create a proper geometry class instead of just a tuple as above
-# class Point():
-#     def __init__(self, _x=.0, _y=.0):
-#         self.x = _x
-#         self.y = _y
+
+def transform_vector(pt, x, y, angle):
+    return (x + math.cos(angle)*pt[0] - math.sin(angle)*pt[1], y + math.sin(angle)*pt[0] + math.cos(angle)*pt[1])
 
 class CarState():
     """ Struct to contain state params
@@ -34,13 +30,13 @@ class CarState():
         self.accel = 0.0
         self.yaw = 0.0
 
-def norm(x, y):
-    return math.sqrt((x*x) + (y*y))
+def norm(pt1, pt2):
+    return math.sqrt((pt1.x - pt2.x)**2 + (pt1.y - pt2.y)**2)
 
 def load_track_cones(csv_path):
     track = []
     with open(csv_path, 'r') as track_file:
-        for x in track_file.readlines():
-            x, y, typ = x.strip().split(",")
+        for line in track_file.readlines():
+            x, y, typ = line.strip().split(",")
             track.append(Cone(float(x), float(y), int(typ)))
     return track

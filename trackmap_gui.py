@@ -34,16 +34,25 @@ class TrackMapGUI():
         self._car_poly = ((-1.5, -0.7), (-1.5, 0.7), (1.5, 0.7), (2.2, 0), (1.5, -0.7))
         self._vehicle_fig = self._canvas.DrawPolygon(self._car_poly, fill_color='pink')
         self._vehicle_state = CarState()
+        self._ref_figs = []
 
-    def update_vehicle(self, car_state):
-        # self._canvas.relocate_figure(self._vehicle_fig, car_state.x_pos, car_state.y_pos)
-       
+    def update_vehicle(self, car_state):       
         self._canvas.delete_figure(self._vehicle_fig)
         rotated_car_poly = []
         for pt in self._car_poly:
             rotated_car_poly.append(transform_vector(pt, car_state.x_pos, car_state.y_pos, car_state.yaw))
         self._vehicle_fig = self._canvas.DrawPolygon(rotated_car_poly, fill_color='pink')
 
+    def update_reference(self, reference):
+        for x in self._ref_figs:
+            self._canvas.delete_figure(x)
+
+        for i in range(len(reference)-1):
+            self._ref_figs.append(
+                self._canvas.DrawLine((reference[i].coord.x, reference[i].coord.y),
+                    (reference[i+1].coord.x, reference[i+1].coord.y),
+                    color="green", width=3)
+            )
 
     def event_loop(self):
         event, _ = self._window.read(0)
@@ -52,8 +61,6 @@ class TrackMapGUI():
             exit()        
 
     def _draw_cones(self):
-        # TODO: Check cone size works properly on all platforms
-        # (on some its metres, others its pixels)
         for cone in self._track:
             self._cones.append(self._canvas.DrawPoint((cone.x, cone.y), size=0.5, color=ConeTypes(cone.type).name))
 

@@ -19,12 +19,6 @@ class VehicleModel():
     def set_control_inputs(self, controls):
         self._steer_req = controls.steering
         self._throttle_req = controls.throttle
-
-    def get_state_dummy(self, delta_time):
-        self._state.x_pos += delta_time * 5
-        self._state.y_pos += delta_time *-1
-        self._state.yaw += delta_time * -0.2
-        return self._state #dummy for now
     
     def get_state(self, delta_time):
         if self._state.velocity < .0:
