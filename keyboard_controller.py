@@ -53,10 +53,13 @@ class KeyboardController():
                 if event.key == pygame.K_DOWN:
                     self.down = False
         
-        if self.left and self.car.steerAngle <= STEER_MAX:
-            self.car.steerAngle += 1.0 * STEER_SCALE
-        if self.right and self.car.steerAngle >= -STEER_MAX:
-            self.car.steerAngle += -1.0 * STEER_SCALE
+        if self.left or self.right:
+            if self.left and self.car.steerAngle <= STEER_MAX:
+                self.car.steerAngle += 1.0 * STEER_SCALE
+            if self.right and self.car.steerAngle >= -STEER_MAX:
+                self.car.steerAngle += -1.0 * STEER_SCALE
+        else:
+            self.car.steerAngle = 0
         
         if self.down or self.up:
             if self.up:
