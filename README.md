@@ -5,13 +5,13 @@ A self contained python codebase to act as a platform to experiment with motion 
 
  - Python 3.6+
  - PySimpleGUI
- - keyboard
+ - pynput
 
 
 ### Classes
 
 #### Kinematic Vehicle Model
-Implements a kinematic bicycle model that takes in a thottle and steer input between [-1, 1].
+Implements a kinematic bicycle model that takes in a thottle and steering input between [-1, 1].
 There is nothing implementing drag, so this will go infinitely fast if you hold down the throttle.
 
 #### Path Planner

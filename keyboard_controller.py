@@ -1,6 +1,6 @@
 ## Python
 import math
-from keyboard import is_pressed
+from pynput import keyboard
 
 ## MMS
 from utils import Controls
@@ -24,15 +24,38 @@ class KeyboardController():
     # Pops up an invisible pygame window to give keyboard input to the vehicle model
     def __init__(self):
         self.car = Car()
-        self.left, self.right, self.up, self.down = False, False, False, False
+        self.left = False
+        self.right = False
+        self.up = False
+        self.down = False
+
+        # Asynchronous
+        listener = keyboard.Listener(
+            on_press = self._on_press_key,
+            on_release = self._on_release_key)
+        listener.start()
+
+    def _on_press_key(self, key):
+        if key.char in('w' or 'up'):
+            self.up = True
+        elif key.char in('s' or 'down'):
+            self.down = True
+        elif key.char in('a' or 'left'):
+            self.left = True
+        elif key.char in('d' or 'right'):
+            self.right = True
+
+    def _on_release_key(self, key):
+        if key.char in('w' or 'up'):
+            self.up = False
+        elif key.char in('s' or 'down'):
+            self.down = False
+        elif key.char in('a' or 'left'):
+            self.left = False
+        elif key.char in('d' or 'right'):
+            self.right = False
 
     def get_controls(self, car_state, path_reference):
-        # Args ignored, just give the user input
-        self.left = is_pressed('left')
-        self.right = is_pressed('right')
-        self.up = is_pressed('up')
-        self.down = is_pressed('down')
-
         if self.left or self.right:
             if not self.right and self.car.steerAngle < 0 or \
              not self.left and self.car.steerAngle > 0:
