@@ -40,3 +40,6 @@ def load_track_cones(csv_path):
             x, y, typ = line.strip().split(",")
             track.append(Cone(float(x), float(y), int(typ)))
     return track
+
+def clamp(x, min_x, max_x):
+    return min(max(x, min_x), max_x)

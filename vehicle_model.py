@@ -2,7 +2,7 @@
 import math
 
 ## MMS
-from utils import CarState, Controls
+from utils import CarState, Controls, clamp
 
 class VehicleModel():
     def __init__(self):
@@ -17,15 +17,15 @@ class VehicleModel():
         self._COG_rear = 0.6183
 
     def set_control_inputs(self, controls):
-        self._steer_req = controls.steering
-        self._throttle_req = controls.throttle
+        self._steer_req = clamp(controls.steering, -1.0, 1.0)
+        self._throttle_req = clamp(controls.throttle, -1.0, 1.0)
     
     def get_state(self, delta_time):
         if self._state.velocity < .0:
-            self._state.accel = max(0, self._throttle_req * 4)
+            self._state.accel = max(0, self._throttle_req * 5)
         else:
             self._state.accel = self._throttle_req * 4
-        self._steer_angle = self._steer_req * 0.43 # map [-1, 1] to rads
+        self._steer_angle = self._steer_req * 0.43 # map [-1, 1] to radians
 
         # Kinematic Bicycle Maths
         ratio = math.tan(self._steer_angle) * self._COG_rear / (self._COG_front + self._COG_rear)
