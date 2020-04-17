@@ -17,7 +17,12 @@ class MotionController():
         Input parameters:
             - car_state: An object of type CarState(), you can find the definition in utils.py
                          This is represented by the pink shape in the GUI
-                         You can access the attributes by eg: x_coord = car_state.x_pos
+                         It has the attributes:
+                         car_state.x_pos: x position of car in world frame
+                         car_state.y_pos: x position of car in world frame
+                         car_state.velocity: velocity of car
+                         car_state.yaw: The yaw(heading) of the car
+
 
             - path_reference: A list of RefPoint() objects
                               This is represented by the green line in the GUI
