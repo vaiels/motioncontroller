@@ -21,7 +21,6 @@ class Car():
 
 
 class KeyboardController():
-    # Pops up an invisible pygame window to give keyboard input to the vehicle model
     def __init__(self):
         self.car = Car()
         self.left = False

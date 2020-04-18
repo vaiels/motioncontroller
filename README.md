@@ -1,5 +1,5 @@
 # Simple Project
-A self contained python codebase to act as a platform to experiment with motion control implementations. This aims to have as few dependencies as possible and be compatible with both Linux and Windows.
+A self contained python codebase to act as a platform to experiment with motion control implementations. This aims to have as few dependencies as possible and be compatible with both Linux and Windows. To run, type `python main.py` into the command line.
 
 ### Requirements
 
@@ -32,3 +32,8 @@ The framework for this has already been implemented for you, but feel free to ex
 
 #### Trackmap GUI
 Visualizes the cones on the track, the car's current position, and the reference waypoints.
+
+
+#### Keyboard Controller
+Overrides the Motion Controller, and allows the user to control the vehicle model with the keyboard. Use WASD or Arrows.
+To use this, type `python main.py keyboard` into the command line.

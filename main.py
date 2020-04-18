@@ -11,9 +11,8 @@ from motion_controller import MotionController
 from keyboard_controller import KeyboardController
 
 rate = 50.0
-keyboard_controller_enabled = False
 
-def main():
+def main(keyboard=False):
     track_csv = Path("./FSG2019.csv")
     track_ref_csv = Path("./FSG2019_ref.csv")
 
@@ -21,7 +20,7 @@ def main():
     vehicle = VehicleModel()
     planner = PathPlanner(track_ref_csv)
     
-    if keyboard_controller_enabled or (len(sys.argv) > 1 and sys.argv[1] == "keyboard"):
+    if keyboard:
         controller = KeyboardController()
     else:
         controller = MotionController()
@@ -40,4 +39,5 @@ def main():
         time.sleep(1.0/rate)
 
 if __name__ == "__main__":
-    main()
+    keyboard = len(sys.argv) > 1 and sys.argv[1] == "keyboard"
+    main(keyboard)
