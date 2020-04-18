@@ -34,5 +34,6 @@ class VehicleModel():
         self._state.x_pos    += self._state.velocity * math.cos(_slip_angle + self._state.yaw) * delta_time
         self._state.y_pos    += self._state.velocity * math.sin(_slip_angle + self._state.yaw) * delta_time
         self._state.velocity += self._state.accel * delta_time
+        self._state.velocity = max(self._state.velocity, .0)
         self._state.yaw      += (self._state.velocity / self._COG_rear) * math.sin(_slip_angle) * delta_time
         return self._state 
