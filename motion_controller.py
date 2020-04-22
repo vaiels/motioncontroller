@@ -34,6 +34,27 @@ class MotionController():
 
         """
 
+        """
+            One of the most simple forms of controllers is the Pure pursuit controller. It work by simply looking at a
+            target point in the future, and steering the wheels towards that. 
+            Let's just pick one of the path_reference points, say 2, as our target point. 
+
+            It's easiest to separate the two components of the controller out in to velocity control, and steering control.
+                Velocity control:
+                    The most basic controller I can think of is a P controller (P being 'proportional' from PID control).
+                    For a PID type controller you need a setpoint and a current value to produce an error. (The output of the
+                    controller is just a 'gain' (some scaling factor you manually tune) times by the error.) The current value 
+                    we can get from the car's state, the setpoint we get from our chosen reference waypoint.
+
+                Steering:
+                    Intuitively, it should make sense that we want to steer the front wheels towards the chosen reference waypoint.
+                    Imagine a vector going from the car's front wheels to the waypoint. We want the wheels to point along this vector,
+                    so use some trigonometry to figure out what that angle is.
+            
+            You may find it useful to draw up a sketch of the above scenario and think about how the angles changes when the car moves or
+            the waypoint moves.
+        """
+
         # For dummy purposes just to show that the car moves (make the car move randomly)
         self.time += 0.02
         steering = -math.sin(self.time*0.1)
