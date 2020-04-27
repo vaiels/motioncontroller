@@ -49,8 +49,8 @@ class TrackMapGUI():
 
         for i in range(len(reference)-1):
             self._ref_figs.append(
-                self._canvas.DrawLine((reference[i].coord.x, reference[i].coord.y),
-                    (reference[i+1].coord.x, reference[i+1].coord.y),
+                self._canvas.DrawLine((reference[i].x, reference[i].y),
+                    (reference[i+1].x, reference[i+1].y),
                     color="green", width=3)
             )
 

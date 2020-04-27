@@ -12,7 +12,7 @@ class PathPlanner():
         closest_dist = 2**16
         closest_idx = 0
         for idx, ref in enumerate(self._reference):
-            curr_dist = norm(car_pos, ref.coord)
+            curr_dist = norm(car_pos, ref)
             if curr_dist < closest_dist:
                 closest_dist = curr_dist
                 closest_idx = idx
@@ -24,5 +24,5 @@ class PathPlanner():
         with open(csv_reference, 'r') as track_file:
             for line in track_file.readlines():
                 x, y, vel = line.strip().split(",")
-                track.append(RefPoint( Point(float(x), float(y)), float(vel)))
+                track.append(RefPoint(float(x), float(y), float(vel)*1.5))
         return track

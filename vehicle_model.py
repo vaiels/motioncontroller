@@ -2,7 +2,7 @@
 import math
 
 ## MMS
-from utils import CarState, Controls, clamp
+from utils import CarState, Controls, clamp, wrap_angle
 
 class VehicleModel():
     def __init__(self):
@@ -36,4 +36,5 @@ class VehicleModel():
         self._state.velocity += self._state.accel * delta_time
         self._state.velocity = max(self._state.velocity, .0)
         self._state.yaw      += (self._state.velocity / self._COG_rear) * math.sin(_slip_angle) * delta_time
+        self._state.yaw      = wrap_angle(self._state.yaw)
         return self._state 
