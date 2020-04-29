@@ -12,7 +12,7 @@ Cone = namedtuple('Cone', 'x y type')
 
 Point = namedtuple('Point', 'x y')
 
-RefPoint = namedtuple('RefPoint', 'coord vel')
+RefPoint = namedtuple('RefPoint', 'x y vel')
 
 Controls = namedtuple('Controls', 'steering throttle')
 
@@ -43,3 +43,10 @@ def load_track_cones(csv_path):
 
 def clamp(x, min_x, max_x):
     return min(max(x, min_x), max_x)
+
+def wrap_angle(angle_in):
+    if angle_in > math.pi:
+        angle_in -= 2*math.pi
+    elif angle_in < -math.pi:
+        angle_in += 2*math.pi
+    return angle_in
