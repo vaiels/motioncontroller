@@ -16,8 +16,8 @@ class TrackMapGUI():
         print(f"Loading track : \"{self.track_name}\" with {len(self._track)} cones")
 
         self._buffer = 10
-        self._canvas_width = 1280
-        self._canvas_height = 1280
+        self._canvas_width = 1000
+        self._canvas_height = 1000
         bot_left, top_right = self._find_track_bounds()
 
         layout = [[sg.Graph(canvas_size=(self._canvas_width, self._canvas_height),
