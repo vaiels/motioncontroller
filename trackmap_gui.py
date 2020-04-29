@@ -25,7 +25,7 @@ class TrackMapGUI():
                         graph_top_right=top_right,
                         background_color='grey', key='graph', float_values=True, enable_events=True, drag_submits=True)]]
 
-        self._window = sg.Window('Simulation Track', layout)
+        self._window = sg.Window('Simulation Track', layout, grab_anywhere=True)
         self._canvas = self._window['graph']
         self._window.Finalize()
 
