@@ -81,5 +81,7 @@ class KeyboardController():
                     self.car.acceleration += -1.0 * BRAKE_SCALE
         else:
             self.car.acceleration = 0
-
+        axleError = math.sqrt((path_reference[0].y - car_state.y_pos)**2 + (path_reference[0].x - car_state.x_pos)**2)
+        #crosstrackError = math.atan2()
+        print(axleError)
         return Controls(self.car.steerAngle/STEER_MAX, self.car.acceleration)

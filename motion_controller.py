@@ -4,6 +4,8 @@ import math
 ## MMS
 from utils import Controls, Point, wrap_angle
 
+from simple_pid import PID
+
 class MotionController():
     # To be implemented by the user
     def __init__(self):
@@ -33,11 +35,26 @@ class MotionController():
                               path_reference[0].y is a number that is the y coordinate of the point
 
         """
-
+        def normalise_angle(angle):
+            while angle > math.pi:
+                angle -= 2.0 * math.pi
+            while angle < -math.pi:
+                angle += 2.0 * math.pi
+            return angle
+        pathyaw = math.atan2( (path_reference[2].y - path_reference[0].y) , (path_reference[2].x - path_reference[0].x) )
+        headingError = normalise_angle(pathyaw - car_state.yaw)
+        axleError = math.sqrt((path_reference[0].y - car_state.y_pos)**2 + (path_reference[0].x - car_state.x_pos)**2)
+        k = 0.08
+        crosstrackError = math.atan2(k * axleError , car_state.velocity)
+        delta = headingError + crosstrackError
         # For dummy purposes just to show that the car moves (make the car move randomly)
         self.time += 0.02
-        steering = -math.sin(self.time*0.1)
-        throttle = math.sin(self.time)
-
+        steering = delta
+        
+        pid = PID(0.02, 0.01, 0.005, setpoint = path_reference[0].vel)
+        pid.sample_time = 0.02
+        pid.tunings = (1.0, 1.0, 1.0)
+        pid.output_limits = (-1,1)
+        throttle = pid(car_state.velocity)
         # Controls are of the form (steering (between [-1, 1]), throttle (between [-1, 1]))
         return Controls(steering, throttle)
