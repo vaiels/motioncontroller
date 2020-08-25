@@ -35,14 +35,8 @@ class MotionController():
                               path_reference[0].y is a number that is the y coordinate of the point
 
         """
-        def normalise_angle(angle):
-            while angle > math.pi:
-                angle -= 2.0 * math.pi
-            while angle < -math.pi:
-                angle += 2.0 * math.pi
-            return angle
         pathyaw = math.atan2( (path_reference[2].y - path_reference[0].y) , (path_reference[2].x - path_reference[0].x) )
-        headingError = normalise_angle(pathyaw - car_state.yaw)
+        headingError = wrap_angle(pathyaw - car_state.yaw)
         axleError = math.sqrt((path_reference[0].y - car_state.y_pos)**2 + (path_reference[0].x - car_state.x_pos)**2)
         k = 0.1
         crosstrackError = math.atan2(k * axleError , car_state.velocity)
