@@ -4,7 +4,6 @@ import math
 ## MMS
 from utils import Controls, Point, wrap_angle
 
-from simple_pid import PID
 
 class MotionController():
     # To be implemented by the user
@@ -12,7 +11,6 @@ class MotionController():
         """
             The constructor function called when you make an object of type MotionController()
         """
-        self.time = 0
 
     def get_controls(self, car_state, path_reference):
         """
@@ -35,18 +33,20 @@ class MotionController():
                               path_reference[0].y is a number that is the y coordinate of the point
 
         """
+        # Stanley controller
         pathyaw = math.atan2( (path_reference[2].y - path_reference[0].y) , (path_reference[2].x - path_reference[0].x) )
         headingError = wrap_angle(pathyaw - car_state.yaw)
         axleError = math.sqrt((path_reference[0].y - car_state.y_pos)**2 + (path_reference[0].x - car_state.x_pos)**2)
         k = 0.1
         crosstrackError = math.atan2(k * axleError , car_state.velocity)
         delta = headingError + crosstrackError
-        # For dummy purposes just to show that the car moves (make the car move randomly)
-        self.time += 0.02
+
         steering = delta
-        
-        pid = PID(Kp= 1, Ki= 0.5, Kd=0.2, setpoint = path_reference[0].vel, sample_time = 0.02, output_limits= (-1,1))
-        throttle = pid(car_state.velocity)
-        print(throttle)
+        # P controller
+        velError = path_reference[0].vel - car_state.velocity
+        Kp = 1
+        throttle = Kp * velError
+        #pid = PID(Kp= 1, Ki= 0.5, Kd=0.2, setpoint = path_reference[0].vel, sample_time = 0.02, output_limits= (-1,1))
+        #throttle = pid(car_state.velocity)
         # Controls are of the form (steering (between [-1, 1]), throttle (between [-1, 1]))
         return Controls(steering, throttle)
