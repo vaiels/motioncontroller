@@ -44,17 +44,15 @@ class MotionController():
         pathyaw = math.atan2( (path_reference[2].y - path_reference[0].y) , (path_reference[2].x - path_reference[0].x) )
         headingError = normalise_angle(pathyaw - car_state.yaw)
         axleError = math.sqrt((path_reference[0].y - car_state.y_pos)**2 + (path_reference[0].x - car_state.x_pos)**2)
-        k = 0.08
+        k = 0.1
         crosstrackError = math.atan2(k * axleError , car_state.velocity)
         delta = headingError + crosstrackError
         # For dummy purposes just to show that the car moves (make the car move randomly)
         self.time += 0.02
         steering = delta
         
-        pid = PID(0.02, 0.01, 0.005, setpoint = path_reference[0].vel)
-        pid.sample_time = 0.02
-        pid.tunings = (1.0, 1.0, 1.0)
-        pid.output_limits = (-1,1)
+        pid = PID(Kp= 1, Ki= 0.5, Kd=0.2, setpoint = path_reference[0].vel, sample_time = 0.02, output_limits= (-1,1))
         throttle = pid(car_state.velocity)
+        print(throttle)
         # Controls are of the form (steering (between [-1, 1]), throttle (between [-1, 1]))
         return Controls(steering, throttle)
